@@ -66,7 +66,7 @@ const AboutSection = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
                 data-hover
               >
-                <div className={`w-12 h-12 hexagon bg-${color}/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-12 h-12 rounded-lg bg-${color}/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 border border-${color}/20`}>
                   <Icon className={`text-${color}`} size={24} />
                 </div>
                 <h4 className="font-semibold text-foreground mb-2">{title}</h4>
