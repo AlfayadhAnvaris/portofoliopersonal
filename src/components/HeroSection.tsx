@@ -1,37 +1,150 @@
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+
+const roles = [
+  'Full Stack Developer',
+  'UI/UX Designer',
+  'Problem Solver',
+  'Creative Thinker',
+];
 
 const HeroSection = () => {
+  const [currentRole, setCurrentRole] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Typing effect
+  useEffect(() => {
+    const role = roles[currentRole];
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText.length < role.length) {
+          setDisplayText(role.slice(0, displayText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        if (displayText.length > 0) {
+          setDisplayText(displayText.slice(0, -1));
+        } else {
+          setIsDeleting(false);
+          setCurrentRole((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, isDeleting ? 50 : 100);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentRole]);
+
+  // Parallax effect on mouse move
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / 25;
+        const y = (e.clientY - rect.top - rect.height / 2) / 25;
+        setMousePosition({ x, y });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    <section 
+      id="home" 
+      ref={heroRef}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
+    >
+      {/* Animated gradient orbs */}
+      <div 
+        className="absolute w-[500px] h-[500px] rounded-full bg-primary/20 blur-[100px] animate-pulse-glow"
+        style={{
+          left: '20%',
+          top: '30%',
+          transform: `translate(${mousePosition.x * 2}px, ${mousePosition.y * 2}px)`,
+          transition: 'transform 0.3s ease-out',
+        }}
+      />
+      <div 
+        className="absolute w-[400px] h-[400px] rounded-full bg-accent/20 blur-[80px] animate-pulse-glow"
+        style={{
+          right: '20%',
+          bottom: '30%',
+          animationDelay: '1.5s',
+          transform: `translate(${-mousePosition.x * 1.5}px, ${-mousePosition.y * 1.5}px)`,
+          transition: 'transform 0.3s ease-out',
+        }}
+      />
+
       {/* Animated hexagons in background */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div 
+        className="absolute inset-0 flex items-center justify-center"
+        style={{
+          transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
+          transition: 'transform 0.5s ease-out',
+        }}
+      >
         <div className="w-[600px] h-[600px] hexagon gradient-primary opacity-5 animate-spin-slow" />
       </div>
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div 
+        className="absolute inset-0 flex items-center justify-center"
+        style={{
+          transform: `translate(${-mousePosition.x * 0.5}px, ${-mousePosition.y * 0.5}px)`,
+          transition: 'transform 0.5s ease-out',
+        }}
+      >
         <div className="w-[400px] h-[400px] hexagon border-2 border-primary/20 animate-pulse-glow" />
       </div>
+      
+      {/* Floating hexagon particles */}
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-8 h-8 hexagon bg-primary/10 animate-float"
+          style={{
+            left: `${15 + i * 15}%`,
+            top: `${20 + (i % 3) * 25}%`,
+            animationDelay: `${i * 0.5}s`,
+            animationDuration: `${4 + i}s`,
+          }}
+        />
+      ))}
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col items-center text-center">
-          {/* Profile hexagon */}
-          <div className="mb-8 animate-scale-in">
-            <div className="w-40 h-40 hexagon gradient-primary p-1 box-glow">
-              <div className="w-full h-full hexagon bg-card flex items-center justify-center">
-                <span className="text-6xl">👨‍💻</span>
+          {/* Profile hexagon with hover effect */}
+          <div className="mb-8 animate-scale-in group">
+            <div 
+              className="w-40 h-40 hexagon gradient-primary p-1 box-glow transition-all duration-500 group-hover:scale-110"
+              style={{
+                transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)`,
+              }}
+            >
+              <div className="w-full h-full hexagon bg-card flex items-center justify-center overflow-hidden">
+                <span className="text-6xl transition-transform duration-300 group-hover:scale-125">👨‍💻</span>
               </div>
             </div>
           </div>
 
-          {/* Title */}
+          {/* Title with gradient animation */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <span className="text-foreground">Hi, I'm </span>
-            <span className="gradient-text">John Doe</span>
+            <span className="gradient-text animate-pulse">John Doe</span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            Full Stack Developer & UI/UX Designer
-          </p>
+          {/* Typing effect subtitle */}
+          <div className="h-12 md:h-14 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <p className="text-xl md:text-2xl text-muted-foreground">
+              <span className="text-primary">&lt;</span>
+              <span className="text-foreground">{displayText}</span>
+              <span className="animate-pulse text-primary">|</span>
+              <span className="text-primary">/&gt;</span>
+            </p>
+          </div>
 
           {/* Description */}
           <p className="text-muted-foreground mb-10 max-w-xl animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
@@ -39,47 +152,72 @@ const HeroSection = () => {
             Passionate about building innovative solutions.
           </p>
 
-          {/* Social Links */}
+          {/* Interactive Social Links */}
           <div className="flex gap-4 mb-12 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
             {[
-              { icon: Github, href: '#', label: 'GitHub' },
-              { icon: Linkedin, href: '#', label: 'LinkedIn' },
-              { icon: Mail, href: '#contact', label: 'Email' },
-            ].map(({ icon: Icon, href, label }) => (
+              { icon: Github, href: '#', label: 'GitHub', delay: 0 },
+              { icon: Linkedin, href: '#', label: 'LinkedIn', delay: 0.1 },
+              { icon: Mail, href: '#contact', label: 'Email', delay: 0.2 },
+            ].map(({ icon: Icon, href, label, delay }) => (
               <a
                 key={label}
                 href={href}
-                className="w-12 h-12 hexagon bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-secondary/80 transition-all duration-300 hover:scale-110 hover:box-glow"
+                className="group w-14 h-14 hexagon bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-125 hover:box-glow relative overflow-visible"
+                style={{ animationDelay: `${delay}s` }}
                 data-hover
                 aria-label={label}
               >
-                <Icon size={20} />
+                <Icon size={22} className="transition-transform duration-300 group-hover:scale-110" />
+                <span className="absolute -bottom-8 text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {label}
+                </span>
               </a>
             ))}
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons with pulse effect */}
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <a
               href="#projects"
-              className="px-8 py-3 gradient-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105 hover:box-glow"
+              className="group px-8 py-3 gradient-primary text-primary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:box-glow relative overflow-hidden"
               data-hover
             >
-              View My Work
+              <span className="relative z-10">View My Work</span>
+              <div className="absolute inset-0 bg-accent/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
             </a>
             <a
               href="#contact"
-              className="px-8 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all duration-300 hover:scale-105 border border-border"
+              className="group px-8 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 border border-border hover:border-primary/50 relative overflow-hidden"
               data-hover
             >
-              Get In Touch
+              <span className="relative z-10">Get In Touch</span>
+              <div className="absolute inset-0 bg-primary/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
             </a>
+          </div>
+
+          {/* Stats counter */}
+          <div className="flex gap-8 mt-16 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
+            {[
+              { value: '5+', label: 'Years Experience' },
+              { value: '50+', label: 'Projects Completed' },
+              { value: '30+', label: 'Happy Clients' },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center group cursor-default" data-hover>
+                <p className="text-3xl md:text-4xl font-bold gradient-text group-hover:scale-110 transition-transform duration-300">
+                  {stat.value}
+                </p>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <a href="#about" className="text-muted-foreground hover:text-primary transition-colors" data-hover>
+        {/* Scroll indicator with animation */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <span className="text-xs text-muted-foreground animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
+            Scroll Down
+          </span>
+          <a href="#about" className="text-muted-foreground hover:text-primary transition-colors animate-bounce" data-hover>
             <ArrowDown size={24} />
           </a>
         </div>
