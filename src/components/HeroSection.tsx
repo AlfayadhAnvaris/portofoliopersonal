@@ -80,7 +80,7 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Animated hexagons in background */}
+      {/* Geometric lines in background */}
       <div 
         className="absolute inset-0 flex items-center justify-center"
         style={{
@@ -88,23 +88,18 @@ const HeroSection = () => {
           transition: 'transform 0.5s ease-out',
         }}
       >
-        <div className="w-[600px] h-[600px] hexagon gradient-primary opacity-5 animate-spin-slow" />
-      </div>
-      <div 
-        className="absolute inset-0 flex items-center justify-center"
-        style={{
-          transform: `translate(${-mousePosition.x * 0.5}px, ${-mousePosition.y * 0.5}px)`,
-          transition: 'transform 0.5s ease-out',
-        }}
-      >
-        <div className="w-[400px] h-[400px] hexagon border-2 border-primary/20 animate-pulse-glow" />
+        <svg className="w-[600px] h-[600px] opacity-10 animate-spin-slow" viewBox="0 0 100 100">
+          <rect x="10" y="10" width="80" height="80" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+          <rect x="20" y="20" width="60" height="60" fill="none" stroke="hsl(var(--accent))" strokeWidth="0.3" transform="rotate(15 50 50)" />
+          <rect x="30" y="30" width="40" height="40" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" transform="rotate(30 50 50)" />
+        </svg>
       </div>
       
-      {/* Floating hexagon particles */}
+      {/* Floating geometric particles */}
       {[...Array(6)].map((_, i) => (
         <div
           key={i}
-          className="absolute w-8 h-8 hexagon bg-primary/10 animate-float"
+          className="absolute w-4 h-4 border border-primary/30 rotate-45 animate-float"
           style={{
             left: `${15 + i * 15}%`,
             top: `${20 + (i % 3) * 25}%`,
@@ -116,16 +111,16 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col items-center text-center">
-          {/* Profile hexagon with hover effect */}
+          {/* Profile with geometric frame */}
           <div className="mb-8 animate-scale-in group">
             <div 
-              className="w-40 h-40 hexagon gradient-primary p-1 box-glow transition-all duration-500 group-hover:scale-110"
+              className="w-40 h-40 geo-shape gradient-primary p-1 box-glow transition-all duration-500"
               style={{
                 transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)`,
               }}
             >
-              <div className="w-full h-full hexagon bg-card flex items-center justify-center overflow-hidden">
-                <span className="text-6xl transition-transform duration-300 group-hover:scale-125">👨‍💻</span>
+              <div className="w-full h-full geo-shape bg-card flex items-center justify-center overflow-hidden">
+                <span className="text-6xl transition-transform duration-300 group-hover:scale-110">👨‍💻</span>
               </div>
             </div>
           </div>
@@ -162,7 +157,7 @@ const HeroSection = () => {
               <a
                 key={label}
                 href={href}
-                className="group w-14 h-14 hexagon bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-125 hover:box-glow relative overflow-visible"
+                className="group w-14 h-14 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:box-glow relative overflow-visible border border-border hover:border-primary/50"
                 style={{ animationDelay: `${delay}s` }}
                 data-hover
                 aria-label={label}

@@ -39,7 +39,7 @@ const ContactSection = () => {
               
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 hexagon gradient-primary flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
                     <Mail className="text-primary-foreground" size={20} />
                   </div>
                   <div>
@@ -51,7 +51,7 @@ const ContactSection = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 hexagon gradient-primary flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
                     <MapPin className="text-primary-foreground" size={20} />
                   </div>
                   <div>
@@ -62,12 +62,12 @@ const ContactSection = () => {
               </div>
             </div>
 
-            {/* Decorative hexagons */}
+            {/* Decorative geometric shapes */}
             <div className="hidden lg:flex gap-4 justify-center">
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="w-16 h-16 hexagon bg-primary/10 animate-float"
+                  className="w-12 h-12 border border-primary/30 rotate-45 animate-float"
                   style={{ animationDelay: `${i * 0.5}s` }}
                 />
               ))}

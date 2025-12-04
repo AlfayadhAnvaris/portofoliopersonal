@@ -22,7 +22,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="relative w-12 h-12 hexagon bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-secondary/80 transition-all duration-300 hover:scale-110"
+      className="relative w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-secondary/80 transition-all duration-300 border border-border hover:border-primary/50"
       data-hover
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >

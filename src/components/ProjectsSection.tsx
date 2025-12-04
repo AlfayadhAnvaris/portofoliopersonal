@@ -27,7 +27,7 @@ const projects = [
   },
   {
     title: 'Portfolio Website',
-    description: 'Modern portfolio with interactive animations, custom cursor, and hexagon theme.',
+    description: 'Modern portfolio with interactive animations, custom cursor, and geometric design.',
     tags: ['React', 'TypeScript', 'Tailwind', 'Framer'],
     image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop',
     github: '#',
@@ -66,9 +66,9 @@ const ProjectsSection = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
                 
-                {/* Hexagon overlay */}
-                <div className="absolute top-4 right-4 w-12 h-12 hexagon gradient-primary opacity-80 flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold">{index + 1}</span>
+                {/* Number badge */}
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-lg gradient-primary opacity-90 flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-sm">{String(index + 1).padStart(2, '0')}</span>
                 </div>
               </div>
 

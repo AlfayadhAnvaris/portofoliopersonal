@@ -31,7 +31,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2 group" data-hover>
-            <div className="w-10 h-10 hexagon gradient-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <div className="w-10 h-10 geo-shape gradient-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <span className="text-primary-foreground font-bold text-lg">P</span>
             </div>
             <span className="font-bold text-xl text-foreground">Portfolio</span>
