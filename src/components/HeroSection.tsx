@@ -111,17 +111,34 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col items-center text-center">
-          {/* Profile with geometric frame */}
-          <div className="mb-8 animate-scale-in group">
+          {/* Profile with glassmorphism effect */}
+          <div className="mb-8 animate-scale-in group relative">
+            {/* Glow effect behind */}
             <div 
-              className="w-40 h-40 geo-shape gradient-primary p-1 box-glow transition-all duration-500"
+              className="absolute inset-0 w-40 h-40 rounded-full bg-primary/40 blur-2xl animate-pulse"
+              style={{
+                transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`,
+              }}
+            />
+            <div 
+              className="absolute inset-0 w-40 h-40 rounded-full bg-accent/30 blur-3xl"
+              style={{
+                transform: `translate(${-mousePosition.x * 0.3}px, ${-mousePosition.y * 0.3}px)`,
+                animationDelay: '0.5s',
+              }}
+            />
+            
+            {/* Glass avatar container */}
+            <div 
+              className="relative w-40 h-40 rounded-full backdrop-blur-xl bg-card/30 shadow-2xl flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:shadow-[0_0_40px_hsl(var(--primary)/0.3)]"
               style={{
                 transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)`,
+                border: '1px solid hsl(var(--primary) / 0.2)',
               }}
             >
-              <div className="w-full h-full geo-shape bg-card flex items-center justify-center overflow-hidden">
-                <span className="text-6xl transition-transform duration-300 group-hover:scale-110">👨‍💻</span>
-              </div>
+              {/* Inner subtle ring */}
+              <div className="absolute inset-2 rounded-full border border-primary/10" />
+              <span className="text-6xl transition-transform duration-300 group-hover:scale-110 relative z-10">👨‍💻</span>
             </div>
           </div>
 
