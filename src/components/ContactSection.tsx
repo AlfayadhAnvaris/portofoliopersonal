@@ -34,29 +34,33 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Contact Info */}
           <div className="space-y-8">
-            <div className="p-6 bg-card rounded-xl border border-border">
+            <div className="p-6 bg-card rounded-xl border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-foreground mb-6">Contact Information</h3>
               
               <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
+                <a 
+                  href="mailto:hello@johndoe.com" 
+                  className="flex items-center gap-4 p-3 rounded-lg -mx-3 hover:bg-accent/50 transition-all duration-300 group"
+                  data-hover
+                >
+                  <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <Mail className="text-primary-foreground" size={20} />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <a href="mailto:hello@johndoe.com" className="text-foreground hover:text-primary transition-colors" data-hover>
+                    <p className="text-foreground group-hover:text-primary transition-colors font-medium">
                       hello@johndoe.com
-                    </a>
+                    </p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
+                <div className="flex items-center gap-4 p-3 rounded-lg -mx-3 hover:bg-accent/50 transition-all duration-300 group cursor-default" data-hover>
+                  <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <MapPin className="text-primary-foreground" size={20} />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="text-foreground">Jakarta, Indonesia</p>
+                    <p className="text-foreground font-medium">Jakarta, Indonesia</p>
                   </div>
                 </div>
               </div>
@@ -75,9 +79,9 @@ const ContactSection = () => {
           </div>
 
           {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="p-6 bg-card rounded-xl border border-border space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+          <form onSubmit={handleSubmit} className="p-6 bg-card rounded-xl border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg space-y-6">
+            <div className="group">
+              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2 transition-colors group-focus-within:text-primary">
                 Name
               </label>
               <input
@@ -85,14 +89,14 @@ const ContactSection = () => {
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-primary/50"
                 placeholder="Your name"
                 required
               />
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+            <div className="group">
+              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2 transition-colors group-focus-within:text-primary">
                 Email
               </label>
               <input
@@ -100,14 +104,14 @@ const ContactSection = () => {
                 id="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:border-primary/50"
                 placeholder="your@email.com"
                 required
               />
             </div>
 
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+            <div className="group">
+              <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2 transition-colors group-focus-within:text-primary">
                 Message
               </label>
               <textarea
@@ -115,7 +119,7 @@ const ContactSection = () => {
                 rows={4}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
+                className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 resize-none hover:border-primary/50"
                 placeholder="Tell me about your project..."
                 required
               />
@@ -123,11 +127,12 @@ const ContactSection = () => {
 
             <button
               type="submit"
-              className="w-full px-6 py-3 gradient-primary text-primary-foreground rounded-lg font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 hover:scale-[1.02] hover:box-glow"
+              className="w-full px-6 py-3 gradient-primary text-primary-foreground rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] hover:box-glow group overflow-hidden relative"
               data-hover
             >
-              <Send size={18} />
-              Send Message
+              <Send size={18} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 relative z-10" />
+              <span className="relative z-10">Send Message</span>
+              <div className="absolute inset-0 bg-accent/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
             </button>
           </form>
         </div>
