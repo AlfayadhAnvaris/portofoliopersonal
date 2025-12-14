@@ -173,11 +173,11 @@ const HeroSection = () => {
           {/* CTA Buttons with pulse effect */}
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <a
-              href="#projects"
+              href="#skills"
               className="group px-8 py-3 gradient-primary text-primary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:box-glow relative overflow-hidden"
               data-hover
             >
-              <span className="relative z-10">View My Work</span>
+              <span className="relative z-10">Explore My Skills</span>
               <div className="absolute inset-0 bg-accent/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
             </a>
             <a
@@ -212,7 +212,7 @@ const HeroSection = () => {
           <span className="text-xs text-muted-foreground animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
             Scroll Down
           </span>
-          <a href="#about" className="text-muted-foreground hover:text-primary transition-colors animate-bounce" data-hover>
+          <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors animate-bounce" data-hover>
             <ArrowDown size={24} />
           </a>
         </div>

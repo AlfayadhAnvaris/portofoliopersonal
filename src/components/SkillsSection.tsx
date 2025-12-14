@@ -1,0 +1,258 @@
+import { useState } from 'react';
+import { Code, Palette, Server, Smartphone, ExternalLink, Github, ChevronRight } from 'lucide-react';
+
+interface Project {
+  title: string;
+  description: string;
+  image: string;
+  github: string;
+  live: string;
+}
+
+interface Skill {
+  id: string;
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  technologies: string[];
+  projects: Project[];
+}
+
+const skillsData: Skill[] = [
+  {
+    id: 'frontend',
+    icon: Code,
+    title: 'Frontend Development',
+    description: 'Building responsive and interactive user interfaces with modern frameworks',
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js', 'Vue.js'],
+    projects: [
+      {
+        title: 'E-Commerce Platform',
+        description: 'Modern shopping experience with real-time cart updates',
+        image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+      {
+        title: 'Portfolio Website',
+        description: 'Interactive portfolio with geometric design',
+        image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+    ],
+  },
+  {
+    id: 'backend',
+    icon: Server,
+    title: 'Backend Development',
+    description: 'Designing scalable APIs and robust server-side solutions',
+    technologies: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'GraphQL'],
+    projects: [
+      {
+        title: 'API Gateway Service',
+        description: 'Microservices architecture with rate limiting',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+      {
+        title: 'Real-time Chat System',
+        description: 'WebSocket-based messaging with Redis caching',
+        image: 'https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+    ],
+  },
+  {
+    id: 'design',
+    icon: Palette,
+    title: 'UI/UX Design',
+    description: 'Creating intuitive and visually appealing user experiences',
+    technologies: ['Figma', 'Adobe XD', 'Prototyping', 'Design Systems', 'Animation'],
+    projects: [
+      {
+        title: 'Banking App Redesign',
+        description: 'Complete UX overhaul for mobile banking',
+        image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+      {
+        title: 'Design System Library',
+        description: 'Comprehensive component library with documentation',
+        image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+    ],
+  },
+  {
+    id: 'mobile',
+    icon: Smartphone,
+    title: 'Mobile Development',
+    description: 'Building cross-platform mobile applications',
+    technologies: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo'],
+    projects: [
+      {
+        title: 'Fitness Tracker App',
+        description: 'Health monitoring with workout plans',
+        image: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+      {
+        title: 'Food Delivery App',
+        description: 'Real-time order tracking and payments',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop',
+        github: '#',
+        live: '#',
+      },
+    ],
+  },
+];
+
+const SkillsSection = () => {
+  const [activeSkill, setActiveSkill] = useState<string>(skillsData[0].id);
+
+  const currentSkill = skillsData.find((s) => s.id === activeSkill)!;
+
+  return (
+    <section id="skills" className="py-20 relative">
+      <div className="container mx-auto px-6">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            <span className="gradient-text">Skills & Expertise</span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Explore my skills and the projects I've built with each expertise area
+          </p>
+        </div>
+
+        {/* Skills Navigation */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {skillsData.map(({ id, icon: Icon, title }) => (
+            <button
+              key={id}
+              onClick={() => setActiveSkill(id)}
+              className={`group p-4 rounded-xl border transition-all duration-300 ${
+                activeSkill === id
+                  ? 'bg-primary text-primary-foreground border-primary box-glow'
+                  : 'bg-card text-foreground border-border hover:border-primary/50'
+              }`}
+              data-hover
+            >
+              <Icon
+                size={28}
+                className={`mx-auto mb-2 transition-transform duration-300 group-hover:scale-110 ${
+                  activeSkill === id ? 'text-primary-foreground' : 'text-primary'
+                }`}
+              />
+              <span className="text-sm font-medium">{title}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Active Skill Content */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Skill Info Card */}
+          <div className="lg:col-span-1">
+            <div className="bg-card rounded-xl border border-border p-6 sticky top-24">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
+                  <currentSkill.icon className="text-primary-foreground" size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-foreground">{currentSkill.title}</h3>
+              </div>
+              <p className="text-muted-foreground mb-6">{currentSkill.description}</p>
+
+              {/* Technologies */}
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">Technologies</h4>
+                <div className="flex flex-wrap gap-2">
+                  {currentSkill.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* View All Button */}
+              <button
+                className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-2 border border-border rounded-lg text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+                data-hover
+              >
+                <span className="text-sm">View All Projects</span>
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Projects Grid */}
+          <div className="lg:col-span-2 space-y-6">
+            {currentSkill.projects.map((project, index) => (
+              <div
+                key={project.title}
+                className="group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:box-glow"
+                data-hover
+              >
+                <div className="flex flex-col md:flex-row">
+                  {/* Project Image */}
+                  <div className="relative md:w-1/3 h-48 md:h-auto overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/50 md:bg-gradient-to-l" />
+                    <div className="absolute top-4 left-4 w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
+                      <span className="text-primary-foreground font-bold text-xs">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Project Content */}
+                  <div className="flex-1 p-6">
+                    <h4 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h4>
+                    <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
+
+                    {/* Links */}
+                    <div className="flex gap-4">
+                      <a
+                        href={project.github}
+                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                        data-hover
+                      >
+                        <Github size={18} />
+                        <span className="text-sm">Code</span>
+                      </a>
+                      <a
+                        href={project.live}
+                        className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+                        data-hover
+                      >
+                        <ExternalLink size={18} />
+                        <span className="text-sm">Live Demo</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default SkillsSection;
