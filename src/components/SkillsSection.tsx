@@ -150,24 +150,33 @@ const SkillsSection = () => {
 
         {/* Skills Navigation */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {skillsData.map(({ id, icon: Icon, title }) => (
+          {skillsData.map(({ id, icon: Icon, title }, index) => (
             <button
               key={id}
               onClick={() => handleSkillChange(id)}
-              className={`group p-4 rounded-xl border transition-all duration-300 ${
+              className={`group p-4 rounded-xl border transition-all duration-300 relative overflow-hidden ${
                 activeSkill === id
                   ? 'bg-primary text-primary-foreground border-primary box-glow scale-[1.02]'
-                  : 'bg-card text-foreground border-border hover:border-primary/50 hover:scale-[1.02]'
+                  : 'bg-card text-foreground border-border hover:border-primary/50 hover:scale-[1.05] hover:shadow-lg'
               }`}
+              style={{ animationDelay: `${index * 100}ms` }}
               data-hover
             >
+              {/* Hover effect background */}
+              <div className={`absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${activeSkill === id ? 'hidden' : ''}`} />
+              
               <Icon
                 size={28}
-                className={`mx-auto mb-2 transition-transform duration-300 group-hover:scale-110 ${
-                  activeSkill === id ? 'text-primary-foreground' : 'text-primary'
+                className={`mx-auto mb-2 transition-all duration-300 group-hover:scale-125 group-hover:rotate-3 ${
+                  activeSkill === id ? 'text-primary-foreground' : 'text-primary group-hover:text-primary'
                 }`}
               />
-              <span className="text-sm font-medium">{title}</span>
+              <span className="text-sm font-medium relative z-10">{title}</span>
+              
+              {/* Active indicator line */}
+              <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-1 rounded-full transition-all duration-300 ${
+                activeSkill === id ? 'w-1/2 bg-primary-foreground' : 'w-0 bg-primary group-hover:w-1/3'
+              }`} />
             </button>
           ))}
         </div>
@@ -200,13 +209,14 @@ const SkillsSection = () => {
                   {currentSkill.technologies.map((tech, idx) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full transition-all duration-300"
+                      className="px-3 py-1 bg-accent text-accent-foreground text-xs rounded-full transition-all duration-300 cursor-default hover:scale-110 hover:bg-primary hover:text-primary-foreground hover:shadow-md"
                       style={{ 
                         animationDelay: `${idx * 50}ms`,
                         opacity: isAnimating ? 0 : 1,
                         transform: isAnimating ? 'scale(0.8)' : 'scale(1)',
                         transition: `all 0.3s ease ${idx * 50}ms`
                       }}
+                      data-hover
                     >
                       {tech}
                     </span>
@@ -216,11 +226,12 @@ const SkillsSection = () => {
 
               {/* View All Button */}
               <button
-                className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-2 border border-border rounded-lg text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+                className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 border border-border rounded-lg text-muted-foreground hover:text-primary-foreground hover:bg-primary hover:border-primary transition-all duration-300 group overflow-hidden relative"
                 data-hover
               >
-                <span className="text-sm">View All Projects</span>
-                <ChevronRight size={16} />
+                <span className="text-sm font-medium relative z-10">View All Projects</span>
+                <ChevronRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 relative z-10" />
+                <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </button>
             </div>
           </div>
@@ -262,22 +273,22 @@ const SkillsSection = () => {
                     <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
 
                     {/* Links */}
-                    <div className="flex gap-4">
+                    <div className="flex gap-3">
                       <a
                         href={project.github}
-                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-md group/link"
                         data-hover
                       >
-                        <Github size={18} />
-                        <span className="text-sm">Code</span>
+                        <Github size={16} className="transition-transform duration-300 group-hover/link:rotate-12" />
+                        <span className="text-sm font-medium">Code</span>
                       </a>
                       <a
                         href={project.live}
-                        className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-md group/link"
                         data-hover
                       >
-                        <ExternalLink size={18} />
-                        <span className="text-sm">Live Demo</span>
+                        <ExternalLink size={16} className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                        <span className="text-sm font-medium">Live Demo</span>
                       </a>
                     </div>
                   </div>
