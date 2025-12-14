@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Code, Palette, Server, Smartphone, ExternalLink, Github, ChevronRight } from 'lucide-react';
 
 interface Project {
@@ -115,8 +115,25 @@ const skillsData: Skill[] = [
 
 const SkillsSection = () => {
   const [activeSkill, setActiveSkill] = useState<string>(skillsData[0].id);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const currentSkill = skillsData.find((s) => s.id === activeSkill)!;
+
+  const handleSkillChange = (skillId: string) => {
+    if (skillId === activeSkill || isAnimating) return;
+    
+    setIsAnimating(true);
+    
+    // Smooth scroll to content
+    contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Trigger exit animation, then change skill
+    setTimeout(() => {
+      setActiveSkill(skillId);
+      setTimeout(() => setIsAnimating(false), 400);
+    }, 200);
+  };
 
   return (
     <section id="skills" className="py-20 relative">
@@ -136,11 +153,11 @@ const SkillsSection = () => {
           {skillsData.map(({ id, icon: Icon, title }) => (
             <button
               key={id}
-              onClick={() => setActiveSkill(id)}
+              onClick={() => handleSkillChange(id)}
               className={`group p-4 rounded-xl border transition-all duration-300 ${
                 activeSkill === id
-                  ? 'bg-primary text-primary-foreground border-primary box-glow'
-                  : 'bg-card text-foreground border-border hover:border-primary/50'
+                  ? 'bg-primary text-primary-foreground border-primary box-glow scale-[1.02]'
+                  : 'bg-card text-foreground border-border hover:border-primary/50 hover:scale-[1.02]'
               }`}
               data-hover
             >
@@ -156,10 +173,18 @@ const SkillsSection = () => {
         </div>
 
         {/* Active Skill Content */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div 
+          ref={contentRef}
+          className="grid lg:grid-cols-3 gap-8 scroll-mt-24"
+        >
           {/* Skill Info Card */}
           <div className="lg:col-span-1">
-            <div className="bg-card rounded-xl border border-border p-6 sticky top-24">
+            <div 
+              key={`info-${activeSkill}`}
+              className={`bg-card rounded-xl border border-border p-6 sticky top-24 transition-all duration-400 ${
+                isAnimating ? 'opacity-0 translate-x-[-20px]' : 'opacity-100 translate-x-0'
+              }`}
+            >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
                   <currentSkill.icon className="text-primary-foreground" size={24} />
@@ -172,10 +197,16 @@ const SkillsSection = () => {
               <div className="space-y-3">
                 <h4 className="text-sm font-semibold text-foreground">Technologies</h4>
                 <div className="flex flex-wrap gap-2">
-                  {currentSkill.technologies.map((tech) => (
+                  {currentSkill.technologies.map((tech, idx) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full"
+                      className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full transition-all duration-300"
+                      style={{ 
+                        animationDelay: `${idx * 50}ms`,
+                        opacity: isAnimating ? 0 : 1,
+                        transform: isAnimating ? 'scale(0.8)' : 'scale(1)',
+                        transition: `all 0.3s ease ${idx * 50}ms`
+                      }}
                     >
                       {tech}
                     </span>
@@ -198,8 +229,13 @@ const SkillsSection = () => {
           <div className="lg:col-span-2 space-y-6">
             {currentSkill.projects.map((project, index) => (
               <div
-                key={project.title}
-                className="group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:box-glow"
+                key={`${activeSkill}-${project.title}`}
+                className={`group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:box-glow ${
+                  isAnimating ? 'opacity-0 translate-y-[20px]' : 'opacity-100 translate-y-0'
+                }`}
+                style={{ 
+                  transitionDelay: isAnimating ? '0ms' : `${index * 100}ms`
+                }}
                 data-hover
               >
                 <div className="flex flex-col md:flex-row">
