@@ -1,4 +1,6 @@
-import { ExternalLink, Github } from 'lucide-react';
+import { useState } from 'react';
+import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const projects = [
   {
@@ -35,7 +37,26 @@ const projects = [
   },
 ];
 
+const PROJECTS_PER_PAGE = 2;
+
 const ProjectsSection = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
+  const showNavigation = projects.length > PROJECTS_PER_PAGE;
+
+  const currentProjects = projects.slice(
+    currentPage * PROJECTS_PER_PAGE,
+    (currentPage + 1) * PROJECTS_PER_PAGE
+  );
+
+  const handlePrevious = () => {
+    setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  };
+
   return (
     <section id="projects" className="py-20 relative">
       <div className="container mx-auto px-6">
@@ -51,7 +72,7 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
+          {currentProjects.map((project, index) => (
             <div
               key={project.title}
               className="group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:scale-[1.02] hover:box-glow"
@@ -68,7 +89,9 @@ const ProjectsSection = () => {
                 
                 {/* Number badge */}
                 <div className="absolute top-4 right-4 w-10 h-10 rounded-lg gradient-primary opacity-90 flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-sm">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="text-primary-foreground font-bold text-sm">
+                    {String(currentPage * PROJECTS_PER_PAGE + index + 1).padStart(2, '0')}
+                  </span>
                 </div>
               </div>
 
@@ -116,6 +139,47 @@ const ProjectsSection = () => {
             </div>
           ))}
         </div>
+
+        {/* Navigation */}
+        {showNavigation && (
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handlePrevious}
+              className="rounded-full border-border hover:border-primary hover:bg-primary/10"
+              data-hover
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            
+            {/* Page indicators */}
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentPage(idx)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    idx === currentPage
+                      ? 'bg-primary w-6'
+                      : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  }`}
+                  data-hover
+                />
+              ))}
+            </div>
+
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleNext}
+              className="rounded-full border-border hover:border-primary hover:bg-primary/10"
+              data-hover
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );
