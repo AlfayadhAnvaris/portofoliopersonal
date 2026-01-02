@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ExternalLink, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 const projects = [
   {
@@ -37,30 +43,59 @@ const projects = [
   },
 ];
 
-const PROJECTS_PER_PAGE = 2;
+const INITIAL_DISPLAY = 2;
+
+const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => (
+  <div
+    className="group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:scale-[1.02] hover:box-glow"
+    data-hover
+  >
+    <div className="relative h-48 overflow-hidden">
+      <img
+        src={project.image}
+        alt={project.title}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+      <div className="absolute top-4 right-4 w-10 h-10 rounded-lg gradient-primary opacity-90 flex items-center justify-center">
+        <span className="text-primary-foreground font-bold text-sm">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+    </div>
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+        {project.title}
+      </h3>
+      <p className="text-muted-foreground mb-4 text-sm">{project.description}</p>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {project.tags.map((tag) => (
+          <span key={tag} className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className="flex gap-4">
+        <a href={project.github} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors" data-hover>
+          <Github size={18} />
+          <span className="text-sm">Code</span>
+        </a>
+        <a href={project.live} className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors" data-hover>
+          <ExternalLink size={18} />
+          <span className="text-sm">Live Demo</span>
+        </a>
+      </div>
+    </div>
+  </div>
+);
 
 const ProjectsSection = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
-  const showNavigation = projects.length > PROJECTS_PER_PAGE;
-
-  const currentProjects = projects.slice(
-    currentPage * PROJECTS_PER_PAGE,
-    (currentPage + 1) * PROJECTS_PER_PAGE
-  );
-
-  const handlePrevious = () => {
-    setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
-  };
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const displayedProjects = projects.slice(0, INITIAL_DISPLAY);
 
   return (
     <section id="projects" className="py-20 relative">
       <div className="container mx-auto px-6">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="gradient-text">Featured Projects</span>
@@ -70,116 +105,37 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          {currentProjects.map((project, index) => (
-            <div
-              key={project.title}
-              className="group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:scale-[1.02] hover:box-glow"
-              data-hover
-            >
-              {/* Project Image */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                
-                {/* Number badge */}
-                <div className="absolute top-4 right-4 w-10 h-10 rounded-lg gradient-primary opacity-90 flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-sm">
-                    {String(currentPage * PROJECTS_PER_PAGE + index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              </div>
-
-              {/* Project Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground mb-4 text-sm">
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Links */}
-                <div className="flex gap-4">
-                  <a
-                    href={project.github}
-                    className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                    data-hover
-                  >
-                    <Github size={18} />
-                    <span className="text-sm">Code</span>
-                  </a>
-                  <a
-                    href={project.live}
-                    className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-                    data-hover
-                  >
-                    <ExternalLink size={18} />
-                    <span className="text-sm">Live Demo</span>
-                  </a>
-                </div>
-              </div>
-            </div>
+          {displayedProjects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
 
-        {/* Navigation */}
-        {showNavigation && (
-          <div className="flex items-center justify-center gap-4 mt-8">
+        {projects.length > INITIAL_DISPLAY && (
+          <div className="text-center mt-8">
             <Button
               variant="outline"
-              size="icon"
-              onClick={handlePrevious}
-              className="rounded-full border-border hover:border-primary hover:bg-primary/10"
+              onClick={() => setShowAllProjects(true)}
+              className="border-border hover:border-primary hover:bg-primary/10"
               data-hover
             >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            
-            {/* Page indicators */}
-            <div className="flex gap-2">
-              {Array.from({ length: totalPages }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentPage(idx)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    idx === currentPage
-                      ? 'bg-primary w-6'
-                      : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                  }`}
-                  data-hover
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={handleNext}
-              className="rounded-full border-border hover:border-primary hover:bg-primary/10"
-              data-hover
-            >
-              <ChevronRight className="h-5 w-5" />
+              View All Projects ({projects.length})
             </Button>
           </div>
         )}
+
+        <Dialog open={showAllProjects} onOpenChange={setShowAllProjects}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl gradient-text">All Projects</DialogTitle>
+            </DialogHeader>
+            <div className="grid md:grid-cols-2 gap-6 mt-4">
+              {projects.map((project, index) => (
+                <ProjectCard key={project.title} project={project} index={index} />
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
