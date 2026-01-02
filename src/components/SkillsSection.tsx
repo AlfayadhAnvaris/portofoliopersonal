@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { Code, Palette, Server, Smartphone, ExternalLink, Github, ChevronRight } from 'lucide-react';
+import { useState, useRef, useMemo } from 'react';
+import { Code, Palette, Server, Smartphone, ExternalLink, Github, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Project {
   title: string;
@@ -169,12 +169,28 @@ const skillsData: Skill[] = [
   },
 ];
 
+const INITIAL_PROJECTS_COUNT = 2;
+
 const SkillsSection = () => {
   const [activeSkill, setActiveSkill] = useState<string>(skillsData[0].id);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [expandedSkills, setExpandedSkills] = useState<Record<string, boolean>>({});
   const contentRef = useRef<HTMLDivElement>(null);
 
   const currentSkill = skillsData.find((s) => s.id === activeSkill)!;
+  const isExpanded = expandedSkills[activeSkill] || false;
+  
+  const displayedProjects = useMemo(() => {
+    if (isExpanded) return currentSkill.projects;
+    return currentSkill.projects.slice(0, INITIAL_PROJECTS_COUNT);
+  }, [currentSkill.projects, isExpanded]);
+
+  const toggleExpand = () => {
+    setExpandedSkills(prev => ({
+      ...prev,
+      [activeSkill]: !prev[activeSkill]
+    }));
+  };
 
   const handleSkillChange = (skillId: string) => {
     if (skillId === activeSkill || isAnimating) return;
@@ -294,7 +310,7 @@ const SkillsSection = () => {
 
           {/* Projects Grid */}
           <div className="lg:col-span-2 space-y-6">
-            {currentSkill.projects.map((project, index) => (
+            {displayedProjects.map((project, index) => (
               <div
                 key={`${activeSkill}-${project.title}`}
                 className={`group bg-card rounded-xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500 hover:box-glow ${
@@ -351,6 +367,27 @@ const SkillsSection = () => {
                 </div>
               </div>
             ))}
+
+            {/* See More / See Less Button */}
+            {currentSkill.projects.length > INITIAL_PROJECTS_COUNT && (
+              <button
+                onClick={toggleExpand}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-border bg-card text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300 group"
+                data-hover
+              >
+                {isExpanded ? (
+                  <>
+                    <span className="text-sm font-medium">See Less</span>
+                    <ChevronUp size={18} className="transition-transform duration-300 group-hover:-translate-y-1" />
+                  </>
+                ) : (
+                  <>
+                    <span className="text-sm font-medium">See More ({currentSkill.projects.length - INITIAL_PROJECTS_COUNT} more)</span>
+                    <ChevronDown size={18} className="transition-transform duration-300 group-hover:translate-y-1" />
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>
