@@ -18,9 +18,6 @@ const Index = () => {
       <Navbar />
       <main className="relative z-10">
         <HeroSection />
-        <AboutSection />
-        <ExperienceSection />
-        <ProjectsSection />
         <AboutSection/>
         <ExperienceSection/>
         <SkillsSection />
