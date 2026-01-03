@@ -1,4 +1,4 @@
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowDown, Download, Github, Linkedin, Mail } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 
 const roles = [
@@ -205,6 +205,16 @@ const HeroSection = () => {
             >
               <span className="relative z-10">Explore My Skills</span>
               <div className="absolute inset-0 bg-accent/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+            </a>
+            <a
+              href="/resume.pdf"
+              download="John_Doe_Resume.pdf"
+              className="group px-8 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 border border-border hover:border-primary/50 relative overflow-hidden flex items-center justify-center gap-2"
+              data-hover
+            >
+              <Download size={18} className="relative z-10" />
+              <span className="relative z-10">Download Resume</span>
+              <div className="absolute inset-0 bg-primary/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
             </a>
             <a
               href="#contact"
