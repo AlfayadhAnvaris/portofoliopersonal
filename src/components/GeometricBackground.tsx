@@ -88,6 +88,44 @@ const GeometricBackground = () => {
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-background" />
+
+      {/* Floating geometric shapes */}
+      <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-primary/20 rounded-lg rotate-45 animate-float" 
+           style={{ animationDelay: '0s', animationDuration: '6s' }} />
+      <div className="absolute top-1/3 right-1/4 w-24 h-24 border border-accent/20 rounded-full animate-float" 
+           style={{ animationDelay: '1s', animationDuration: '8s' }} />
+      <div className="absolute bottom-1/3 left-1/3 w-20 h-20 border border-primary/15 rotate-12 animate-float" 
+           style={{ animationDelay: '2s', animationDuration: '7s' }} />
+      
+      {/* Glowing orbs */}
+      <div className="absolute top-1/2 right-1/3 w-16 h-16 bg-primary/5 rounded-full blur-xl animate-pulse" 
+           style={{ animationDuration: '4s' }} />
+      <div className="absolute bottom-1/4 left-1/2 w-24 h-24 bg-accent/5 rounded-full blur-2xl animate-pulse" 
+           style={{ animationDuration: '5s', animationDelay: '1s' }} />
+
+      {/* Animated dots pattern */}
+      <div className="absolute top-20 right-20 grid grid-cols-3 gap-3 opacity-20">
+        {[...Array(9)].map((_, i) => (
+          <div 
+            key={i} 
+            className="w-2 h-2 bg-primary rounded-full animate-pulse"
+            style={{ 
+              animationDelay: `${i * 0.2}s`,
+              animationDuration: '2s'
+            }}
+          />
+        ))}
+      </div>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .animate-float {
+          animation: float ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 };

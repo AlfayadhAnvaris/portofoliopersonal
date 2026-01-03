@@ -16,6 +16,7 @@ interface Experience {
 
 const experienceData: Experience[] = [
   {
+
     id: 'exp-1',
     title: 'Senior Frontend Developer',
     company: 'Tech Innovators Inc.',
@@ -79,6 +80,59 @@ const experienceData: Experience[] = [
     ],
     technologies: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'PHP'],
   },
+{
+  id: 'exp-1',
+  title: 'Muthawwif, Media and Marketing Specialist',
+  company: 'Umrah & Hajj Travel',
+  location: 'Solo, Central Java, Indonesia',
+  type: 'Freelance',
+  startDate: 'Dec 2024',
+  endDate: 'Present',
+  description:
+    'Serving as a Muthawwif while managing media and marketing activities for Umrah travel programs, including event documentation, promotional content creation, and digital branding.',
+  achievements: [
+    'Guided Umrah pilgrims during rituals and provided religious assistance throughout the program',
+    'Produced photo and video documentation for Umrah events and promotional materials',
+    'Contributed to increasing brand visibility through consistent social media content and marketing campaigns',
+  ],
+  technologies: ['Photography', 'Videography', 'Canva', 'Social Media Marketing'],
+},
+{
+  id: 'exp-2',
+  title: 'Faroidh Teacher',
+  company: 'Markaz Mulazamah Yassalam',
+  location: 'Solo, Central Java, Indonesia',
+  type: 'Full-time',
+  startDate: 'July 2023',
+  endDate: 'Dec 2023',
+  description:
+    'Taught Islamic inheritance law (Faroidh) to students, focusing on conceptual understanding, case-based discussions, and practical problem-solving.',
+  achievements: [
+    'Delivered structured Faroidh lessons to students with varying educational backgrounds',
+    'Helped students understand complex inheritance calculations through simplified teaching methods',
+    'Prepared learning materials and case studies for effective classroom discussions',
+  ],
+  technologies: ['Faroidh Studies', 'Islamic Education', 'Teaching Methodology'],
+},
+
+ {
+  id: 'exp-3',
+  title: 'Tahsin & Tajwid Al-Qur’an Teacher',
+  company: 'Tahsin Quran Online',
+  location: 'Solo, Central Java, Indonesia',
+  type: 'Part-time',
+  startDate: 'June 2024',
+  endDate: 'Dec 2024',
+  description:
+    'Teaching Tahsin and Tajwid of the Qur’an to children and adults through online learning sessions, focusing on proper pronunciation and recitation rules.',
+  achievements: [
+    'Conducted regular online Qur’an recitation classes for children and adult learners',
+    'Assisted students in improving makharijul huruf and tajwid accuracy',
+    'Provided personalized feedback to help students progress consistently',
+  ],
+  technologies: ['Online Teaching', 'Tajwid', 'Tahsin', 'Zoom', 'Google Meet'],
+},
+
 ];
 
 const ExperienceSection = () => {
@@ -226,5 +280,4 @@ const ExperienceSection = () => {
     </section>
   );
 };
-
 export default ExperienceSection;

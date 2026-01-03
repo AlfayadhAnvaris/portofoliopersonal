@@ -9,14 +9,41 @@ const ContactSection = () => {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('https://formspree.io/f/myzkqaow', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(formData),
     });
-    setFormData({ name: '', email: '', message: '' });
-  };
+
+    if (response.ok) {
+      toast({
+        title: 'Message Sent!',
+        description: "Thank you for reaching out. I'll get back to you soon.",
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } else {
+      toast({
+        title: 'Error',
+        description: 'Failed to send message. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  } catch (error) {
+    toast({
+      title: 'Network Error',
+      description: 'Something went wrong. Please try again later.',
+      variant: 'destructive',
+    });
+  }
+};
+
 
   return (
     <section id="contact" className="py-20 relative">
@@ -49,7 +76,7 @@ const ContactSection = () => {
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
                     <p className="text-foreground group-hover:text-primary transition-colors font-medium">
-                      hello@johndoe.com
+                      alfayadhanvaris@gmail.com
                     </p>
                   </div>
                 </a>
@@ -60,7 +87,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="text-foreground font-medium">Jakarta, Indonesia</p>
+                    <p className="text-foreground font-medium">Bukittinggi, West Sumatra, Indonesia</p>
                   </div>
                 </div>
               </div>
@@ -120,7 +147,7 @@ const ContactSection = () => {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 resize-none hover:border-primary/50"
-                placeholder="Tell me about your project..."
+                placeholder="Any some good?"
                 required
               />
             </div>
