@@ -1,0 +1,230 @@
+import { useState } from 'react';
+import { Briefcase, Calendar, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+
+interface Experience {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance' | 'Internship';
+  startDate: string;
+  endDate: string | 'Present';
+  description: string;
+  achievements: string[];
+  technologies: string[];
+}
+
+const experienceData: Experience[] = [
+  {
+    id: 'exp-1',
+    title: 'Senior Frontend Developer',
+    company: 'Tech Innovators Inc.',
+    location: 'San Francisco, CA',
+    type: 'Full-time',
+    startDate: 'Jan 2023',
+    endDate: 'Present',
+    description: 'Leading frontend development for enterprise-level web applications, mentoring junior developers, and implementing best practices.',
+    achievements: [
+      'Improved application performance by 40% through code optimization',
+      'Led a team of 5 developers on a major product redesign',
+      'Implemented CI/CD pipelines reducing deployment time by 60%',
+    ],
+    technologies: ['React', 'TypeScript', 'Next.js', 'TailwindCSS', 'GraphQL'],
+  },
+  {
+    id: 'exp-2',
+    title: 'Full Stack Developer',
+    company: 'Digital Solutions Ltd.',
+    location: 'New York, NY',
+    type: 'Full-time',
+    startDate: 'Mar 2021',
+    endDate: 'Dec 2022',
+    description: 'Developed and maintained full-stack web applications for various clients across different industries.',
+    achievements: [
+      'Built 10+ client projects from scratch to production',
+      'Reduced server costs by 30% through optimization',
+      'Integrated payment systems processing $2M+ annually',
+    ],
+    technologies: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Docker'],
+  },
+  {
+    id: 'exp-3',
+    title: 'Frontend Developer',
+    company: 'StartUp Hub',
+    location: 'Austin, TX',
+    type: 'Full-time',
+    startDate: 'Jun 2019',
+    endDate: 'Feb 2021',
+    description: 'Worked on building responsive web applications and collaborated with design teams to implement pixel-perfect UIs.',
+    achievements: [
+      'Developed component library used across 5 products',
+      'Improved mobile conversion rate by 25%',
+      'Mentored 3 junior developers',
+    ],
+    technologies: ['React', 'JavaScript', 'SASS', 'Redux', 'Jest'],
+  },
+  {
+    id: 'exp-4',
+    title: 'Junior Web Developer',
+    company: 'Creative Agency Co.',
+    location: 'Remote',
+    type: 'Contract',
+    startDate: 'Jan 2018',
+    endDate: 'May 2019',
+    description: 'Created responsive websites and landing pages for small to medium businesses.',
+    achievements: [
+      'Delivered 20+ client websites on time',
+      'Achieved 95% client satisfaction rate',
+      'Learned and implemented modern CSS frameworks',
+    ],
+    technologies: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'PHP'],
+  },
+];
+
+const ExperienceSection = () => {
+  const [expandedExp, setExpandedExp] = useState<string | null>(experienceData[0].id);
+
+  const toggleExpand = (id: string) => {
+    setExpandedExp(expandedExp === id ? null : id);
+  };
+
+  const getTypeColor = (type: Experience['type']) => {
+    switch (type) {
+      case 'Full-time':
+        return 'bg-primary/20 text-primary';
+      case 'Part-time':
+        return 'bg-blue-500/20 text-blue-400';
+      case 'Contract':
+        return 'bg-purple-500/20 text-purple-400';
+      case 'Freelance':
+        return 'bg-green-500/20 text-green-400';
+      case 'Internship':
+        return 'bg-orange-500/20 text-orange-400';
+      default:
+        return 'bg-muted text-muted-foreground';
+    }
+  };
+
+  return (
+    <section id="experience" className="py-24 relative">
+      <div className="container mx-auto px-6">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Work <span className="text-primary">Experience</span>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            My professional journey and the companies I've had the pleasure to work with
+          </p>
+        </div>
+
+        {/* Timeline */}
+        <div className="max-w-4xl mx-auto relative">
+          {/* Timeline Line */}
+          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent" />
+
+          {experienceData.map((exp, index) => (
+            <div
+              key={exp.id}
+              className={`relative flex flex-col md:flex-row gap-8 mb-12 ${
+                index % 2 === 0 ? 'md:flex-row-reverse' : ''
+              }`}
+            >
+              {/* Timeline Dot */}
+              <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg shadow-primary/30 z-10" />
+
+              {/* Date Badge (Desktop) */}
+              <div className={`hidden md:flex w-1/2 ${index % 2 === 0 ? 'justify-start pl-8' : 'justify-end pr-8'}`}>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Calendar size={16} />
+                  <span className="text-sm font-medium">
+                    {exp.startDate} - {exp.endDate}
+                  </span>
+                </div>
+              </div>
+
+              {/* Content Card */}
+              <div className={`ml-8 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
+                <div
+                  className={`bg-card rounded-xl border border-border p-6 cursor-pointer transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 ${
+                    expandedExp === exp.id ? 'border-primary/50' : ''
+                  }`}
+                  onClick={() => toggleExpand(exp.id)}
+                  data-hover
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getTypeColor(exp.type)}`}>
+                          {exp.type}
+                        </span>
+                        {/* Date Badge (Mobile) */}
+                        <span className="md:hidden flex items-center gap-1 text-xs text-muted-foreground">
+                          <Calendar size={12} />
+                          {exp.startDate} - {exp.endDate}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground">{exp.title}</h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Briefcase size={14} className="text-primary" />
+                        <span className="text-primary font-medium">{exp.company}</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1 text-muted-foreground text-sm">
+                        <MapPin size={14} />
+                        <span>{exp.location}</span>
+                      </div>
+                    </div>
+                    <button className="p-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                      {expandedExp === exp.id ? (
+                        <ChevronUp size={18} className="text-muted-foreground" />
+                      ) : (
+                        <ChevronDown size={18} className="text-muted-foreground" />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Expanded Content */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ${
+                      expandedExp === exp.id ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <p className="text-muted-foreground mb-4">{exp.description}</p>
+
+                    {/* Achievements */}
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold text-foreground mb-2">Key Achievements:</h4>
+                      <ul className="space-y-2">
+                        {exp.achievements.map((achievement, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                            {achievement}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2">
+                      {exp.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-1 text-xs font-medium rounded-md bg-muted text-muted-foreground"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ExperienceSection;
