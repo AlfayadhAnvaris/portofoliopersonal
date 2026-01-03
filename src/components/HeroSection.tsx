@@ -365,7 +365,7 @@ const HeroSection = () => {
             
             <a
               href="/resume.pdf"
-              download="John_Doe_Resume.pdf"
+              download="Alfayadh_Resume.pdf"
               className="group px-8 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 border border-border hover:border-primary/50 relative overflow-hidden flex items-center justify-center gap-2"
               data-hover
             >

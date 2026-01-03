@@ -21,7 +21,7 @@ const experienceData: Experience[] = [
   company: 'Umrah & Hajj Travel',
   location: 'Solo, Central Java, Indonesia',
   type: 'Freelance',
-  startDate: 'Dec 2024',
+  startDate: 'March 2025',
   endDate: 'Present',
   description:
     'Serving as a Muthawwif while managing media and marketing activities for Umrah travel programs, including event documentation, promotional content creation, and digital branding.',
@@ -38,8 +38,8 @@ const experienceData: Experience[] = [
   company: 'Markaz Mulazamah Yassalam',
   location: 'Solo, Central Java, Indonesia',
   type: 'Full-time',
-  startDate: 'July 2023',
-  endDate: 'Dec 2023',
+  startDate: 'July 2024',
+  endDate: 'Dec 2024',
   description:
     'Taught Islamic inheritance law (Faroidh) to students, focusing on conceptual understanding, case-based discussions, and practical problem-solving.',
   achievements: [
@@ -56,8 +56,8 @@ const experienceData: Experience[] = [
   company: 'Tahsin Quran Online',
   location: 'Solo, Central Java, Indonesia',
   type: 'Part-time',
-  startDate: 'June 2024',
-  endDate: 'Dec 2024',
+  startDate: 'June 2023',
+  endDate: 'Dec 2023',
   description:
     'Teaching Tahsin and Tajwid of the Qur’an to children and adults through online learning sessions, focusing on proper pronunciation and recitation rules.',
   achievements: [
